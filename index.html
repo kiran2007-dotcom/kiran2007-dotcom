@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M KIRAN | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: {
+                        neon: { cyan:'#00f0ff', purple:'#a855f7', pink:'#ec4899', blue:'#3b82f6', green:'#10b981' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;overflow-x:hidden}
+        ::-webkit-scrollbar{width:5px}
+        ::-webkit-scrollbar-track{background:transparent}
+        ::-webkit-scrollbar-thumb{background:rgba(0,240,255,0.25);border-radius:3px}
+        ::-webkit-scrollbar-thumb:hover{background:rgba(0,240,255,0.45)}
+        #particles-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+        .glass{background:rgba(255,255,255,0.04);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.06)}
+        .glass-light{background:rgba(255,255,255,0.75);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.3)}
+        .glass-card{background:rgba(255,255,255,0.025);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.05);transition:all 0.5s cubic-bezier(0.23,1,0.32,1)}
+        .glass-card:hover{background:rgba(255,255,255,0.07);border-color:rgba(0,240,255,0.18);transform:translateY(-8px);box-shadow:0 30px 70px -15px rgba(0,240,255,0.12),0 0 0 1px rgba(0,240,255,0.05)}
+        .light-mode .glass-card{background:rgba(255,255,255,0.85);border-color:rgba(0,0,0,0.06)}
+        .light-mode .glass-card:hover{background:rgba(255,255,255,0.95);border-color:rgba(59,130,246,0.25);box-shadow:0 30px 70px -15px rgba(59,130,246,0.12)}
+        .gradient-text{background:linear-gradient(135deg,#00f0ff 0%,#a855f7 50%,#ec4899 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .typing-cursor{display:inline-block;width:3px;height:1.1em;background:#00f0ff;margin-left:4px;animation:blink .8s infinite;vertical-align:text-bottom}
+        @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+        .float-shape{position:absolute;border:1px solid rgba(0,240,255,0.08);border-radius:4px;animation:floatShape 20s infinite ease-in-out}
+        @keyframes floatShape{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-30px) rotate(90deg)}50%{transform:translateY(-10px) rotate(180deg)}75%{transform:translateY(-40px) rotate(270deg)}}
+        .float-shape:nth-child(2){animation-delay:-5s;animation-duration:25s}
+        .float-shape:nth-child(3){animation-delay:-10s;animation-duration:18s}
+        .float-shape:nth-child(4){animation-delay:-15s;animation-duration:22s}
+        .float-shape:nth-child(5){animation-delay:-3s;animation-duration:28s}
+        .progress-fill{width:0;transition:width 1.5s cubic-bezier(0.23,1,0.32,1)}
+        .progress-fill.animated{width:var(--target-width)}
+        .nav-link{position:relative}
+        .nav-link::after{content:'';position:absolute;bottom:-4px;left:50%;width:0;height:2px;background:linear-gradient(90deg,#00f0ff,#a855f7);transition:all .3s ease;transform:translateX(-50%)}
+        .nav-link:hover::after,.nav-link.active::after{width:100%}
+        .btn-primary{background:linear-gradient(135deg,#00f0ff 0%,#3b82f6 100%);color:#000;font-weight:600;padding:14px 32px;border-radius:12px;border:none;cursor:pointer;transition:all .3s ease;position:relative;overflow:hidden;display:inline-flex;align-items:center;text-decoration:none}
+        .btn-primary::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transition:left .5s ease}
+        .btn-primary:hover::before{left:100%}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 15px 40px -10px rgba(0,240,255,0.4)}
+        .btn-outline{border:1px solid rgba(0,240,255,0.3);color:#00f0ff;font-weight:500;padding:14px 32px;border-radius:12px;background:transparent;cursor:pointer;transition:all .3s ease;display:inline-flex;align-items:center;text-decoration:none}
+        .btn-outline:hover{background:rgba(0,240,255,0.1);border-color:#00f0ff;transform:translateY(-3px);box-shadow:0 15px 40px -10px rgba(0,240,255,0.2)}
+        .light-mode .btn-outline{border-color:rgba(59,130,246,0.4);color:#3b82f6}
+        .light-mode .btn-outline:hover{background:rgba(59,130,246,0.1);border-color:#3b82f6;box-shadow:0 15px 40px -10px rgba(59,130,246,0.2)}
+        .light-mode .typing-cursor{background:#3b82f6}
+        .light-mode .nav-link::after{background:linear-gradient(90deg,#3b82f6,#a855f7)}
+        .light-mode .float-shape{border-color:rgba(59,130,246,0.08)}
+        .cert-card{overflow:hidden;border-radius:16px;cursor:pointer;position:relative}
+        .cert-card img{transition:transform .7s cubic-bezier(0.23,1,0.32,1);width:100%;height:100%;object-fit:cover}
+        .cert-card:hover img{transform:scale(1.08)}
+        .cert-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 40%,transparent 70%);opacity:0;transition:opacity .4s ease;display:flex;flex-direction:column;justify-content:flex-end;padding:20px}
+        .cert-card:hover .cert-overlay{opacity:1}
+        .mobile-menu{transform:translateX(100%);transition:transform .4s cubic-bezier(0.23,1,0.32,1)}
+        .mobile-menu.open{transform:translateX(0)}
+        .reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(0.23,1,0.32,1)}
+        .reveal.revealed{opacity:1;transform:translateY(0)}
+        .reveal-left{opacity:0;transform:translateX(-40px);transition:all .8s cubic-bezier(0.23,1,0.32,1)}
+        .reveal-left.revealed{opacity:1;transform:translateX(0)}
+        .reveal-right{opacity:0;transform:translateX(40px);transition:all .8s cubic-bezier(0.23,1,0.32,1)}
+        .reveal-right.revealed{opacity:1;transform:translateX(0)}
+        .stagger-children>*{opacity:0;transform:translateY(30px);transition:all .6s cubic-bezier(0.23,1,0.32,1)}
+        .stagger-children.revealed>*:nth-child(1){transition-delay:.05s;opacity:1;transform:translateY(0)}
+        .stagger-children.revealed>*:nth-child(2){transition-delay:.15s;opacity:1;transform:translateY(0)}
+        .stagger-children.revealed>*:nth-child(3){transition-delay:.25s;opacity:1;transform:translateY(0)}
+        .stagger-children.revealed>*:nth-child(4){transition-delay:.35s;opacity:1;transform:translateY(0)}
+        .mouse-follower{position:fixed;width:20px;height:20px;border:1.5px solid rgba(0,240,255,0.4);border-radius:50%;pointer-events:none;z-index:9999;transition:width .3s ease,height .3s ease,border-color .3s ease;transform:translate(-50%,-50%)}
+        .mouse-follower.hover{width:50px;height:50px;border-color:rgba(168,85,247,0.5)}
+        .light-mode .mouse-follower{border-color:rgba(59,130,246,0.3)}
+        .light-mode .mouse-follower.hover{border-color:rgba(168,85,247,0.4)}
+        .form-input{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 18px;color:#fff;font-family:'Inter',sans-serif;font-size:15px;transition:all .3s ease;width:100%;outline:none}
+        .form-input:focus{border-color:rgba(0,240,255,0.4);box-shadow:0 0 25px rgba(0,240,255,0.08)}
+        .form-input::placeholder{color:rgba(255,255,255,0.25)}
+        .light-mode .form-input{background:rgba(0,0,0,0.02);border-color:rgba(0,0,0,0.08);color:#1a1a1a}
+        .light-mode .form-input:focus{border-color:rgba(59,130,246,0.4);box-shadow:0 0 25px rgba(59,130,246,0.08)}
+        .light-mode .form-input::placeholder{color:rgba(0,0,0,0.25)}
+        .toast{position:fixed;bottom:30px;right:30px;padding:16px 28px;border-radius:12px;z-index:10000;transform:translateY(100px);opacity:0;transition:all .4s cubic-bezier(0.23,1,0.32,1)}
+        .toast.show{transform:translateY(0);opacity:1}
+        .pulse-dot{width:8px;height:8px;border-radius:50%;background:#10b981;position:relative}
+        .pulse-dot::before{content:'';position:absolute;inset:-4px;border-radius:50%;background:rgba(16,185,129,0.3);animation:pulse 2s infinite}
+        @keyframes pulse{0%{transform:scale(1);opacity:.5}100%{transform:scale(2);opacity:0}}
+        .section-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(0,240,255,0.15),transparent)}
+        .light-mode .section-divider{background:linear-gradient(90deg,transparent,rgba(59,130,246,0.12),transparent)}
+        .tech-tag{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(0,240,255,0.06);color:#00f0ff;border:1px solid rgba(0,240,255,0.12)}
+        .light-mode .tech-tag{background:rgba(59,130,246,0.06);color:#3b82f6;border-color:rgba(59,130,246,0.12)}
+        .cert-zoom-modal{position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,0.92);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;cursor:zoom-out}
+        .cert-zoom-modal.active{display:flex}
+        .cert-zoom-modal img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:12px;box-shadow:0 25px 80px rgba(0,0,0,0.5)}
+        .thankyou-sparkle{position:absolute;border-radius:50%;pointer-events:none;animation:sparkleFloat linear infinite}
+        @keyframes sparkleFloat{
+            0%{opacity:0;transform:translateY(0) scale(0)}
+            15%{opacity:1;transform:translateY(-20px) scale(1)}
+            85%{opacity:0.6;transform:translateY(-120px) scale(0.6)}
+            100%{opacity:0;transform:translateY(-160px) scale(0)}
+        }
+        .thankyou-heart{animation:heartBeat 1.4s ease-in-out infinite}
+        @keyframes heartBeat{0%,100%{transform:scale(1)}14%{transform:scale(1.2)}28%{transform:scale(1)}42%{transform:scale(1.15)}56%{transform:scale(1)}}
+        .thankyou-glow{animation:thankGlow 3s ease-in-out infinite alternate}
+        @keyframes thankGlow{
+            0%{text-shadow:0 0 20px rgba(0,240,255,0.15),0 0 40px rgba(168,85,247,0.1)}
+            50%{text-shadow:0 0 40px rgba(0,240,255,0.3),0 0 80px rgba(168,85,247,0.2),0 0 120px rgba(236,72,153,0.1)}
+            100%{text-shadow:0 0 60px rgba(0,240,255,0.4),0 0 100px rgba(168,85,247,0.25),0 0 150px rgba(236,72,153,0.15)}
+        }
+        .thankyou-ring{position:absolute;border-radius:50%;border:1px solid rgba(0,240,255,0.12);animation:ringExpand 4s ease-out infinite}
+        .thankyou-ring:nth-child(2){animation-delay:1.3s;border-color:rgba(168,85,247,0.1)}
+        .thankyou-ring:nth-child(3){animation-delay:2.6s;border-color:rgba(236,72,153,0.08)}
+        @keyframes ringExpand{
+            0%{width:80px;height:80px;opacity:0.6}
+            100%{width:350px;height:350px;opacity:0}
+        }
+        .thankyou-star{position:absolute;animation:twinkle 2s ease-in-out infinite}
+        @keyframes twinkle{0%,100%{opacity:0.2;transform:scale(0.8)}50%{opacity:1;transform:scale(1.2)}}
+        .live-link{position:relative;z-index:5}
+        @media(max-width:768px){.mouse-follower{display:none}}
+    </style>
+</head>
+<body class="dark:bg-[#08080d] bg-[#f5f7fa] dark:text-white text-gray-900 transition-colors duration-500">
+
+<div class="cert-zoom-modal" id="certModal"><img src="" alt="Certificate" id="certModalImg"></div>
+<div class="mouse-follower" id="mouseFollower"></div>
+<canvas id="particles-canvas"></canvas>
+<div class="toast glass" id="toast"><span id="toastMsg" class="text-sm font-medium"></span></div>
+
+<!-- Navigation -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <a href="#home" class="flex items-center gap-2.5 group">
+            <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-neon-cyan to-neon-purple flex items-center justify-center text-black font-bold text-sm group-hover:scale-110 transition-transform duration-300">MK</div>
+            <span class="font-semibold text-lg tracking-tight text-neon-cyan">M KIRAN</span>
+        </a>
+        <div class="hidden lg:flex items-center gap-8">
+            <a href="#home" class="nav-link text-sm font-medium dark:text-gray-300 text-gray-600 hover:dark:text-white hover:text-gray-900 transition-colors active">Home</a>
+            <a href="#about" class="nav-link text-sm font-medium dark:text-gray-300 text-gray-600 hover:dark:text-white hover:text-gray-900 transition-colors">About</a>
+            <a href="#skills" class="nav-link text-sm font-medium dark:text-gray-300 text-gray-600 hover:dark:text-white hover:text-gray-900 transition-colors">Skills</a>
+            <a href="#projects" class="nav-link text-sm font-medium dark:text-gray-300 text-gray-600 hover:dark:text-white hover:text-gray-900 transition-colors">Projects</a>
+            <a href="#certificates" class="nav-link text-sm font-medium dark:text-gray-300 text-gray-600 hover:dark:text-white hover:text-gray-900 transition-colors">Certificates</a>
+            <a href="#contact" class="nav-link text-sm font-medium dark:text-gray-300 text-gray-600 hover:dark:text-white hover:text-gray-900 transition-colors">Contact</a>
+        </div>
+        <div class="flex items-center gap-4">
+            <button id="themeToggle" class="w-10 h-10 rounded-xl glass flex items-center justify-center dark:text-gray-300 text-gray-600 hover:dark:text-white hover:text-gray-900 transition-all duration-300 hover:scale-110" aria-label="Toggle theme">
+                <i class="fas fa-sun text-sm dark:block hidden"></i>
+                <i class="fas fa-moon text-sm dark:hidden block"></i>
+            </button>
+            <button id="mobileMenuBtn" class="lg:hidden w-10 h-10 rounded-xl glass flex items-center justify-center dark:text-gray-300 text-gray-600" aria-label="Menu"><i class="fas fa-bars text-sm"></i></button>
+        </div>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="mobile-menu fixed inset-0 z-[60] dark:bg-[#08080d]/98 bg-white/98 backdrop-blur-xl flex flex-col items-center justify-center gap-8">
+    <button id="mobileMenuClose" class="absolute top-6 right-6 w-10 h-10 rounded-xl glass flex items-center justify-center dark:text-white text-gray-900"><i class="fas fa-times"></i></button>
+    <a href="#home" class="mobile-nav-link text-2xl font-semibold dark:text-white text-gray-900 hover:text-neon-cyan transition-colors">Home</a>
+    <a href="#about" class="mobile-nav-link text-2xl font-semibold dark:text-white text-gray-900 hover:text-neon-cyan transition-colors">About</a>
+    <a href="#skills" class="mobile-nav-link text-2xl font-semibold dark:text-white text-gray-900 hover:text-neon-cyan transition-colors">Skills</a>
+    <a href="#projects" class="mobile-nav-link text-2xl font-semibold dark:text-white text-gray-900 hover:text-neon-cyan transition-colors">Projects</a>
+    <a href="#certificates" class="mobile-nav-link text-2xl font-semibold dark:text-white text-gray-900 hover:text-neon-cyan transition-colors">Certificates</a>
+    <a href="#contact" class="mobile-nav-link text-2xl font-semibold dark:text-white text-gray-900 hover:text-neon-cyan transition-colors">Contact</a>
+</div>
+
+<!-- ========== HERO ========== -->
+<section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <div class="float-shape w-16 h-16 top-[15%] left-[10%] rotate-12 opacity-30"></div>
+    <div class="float-shape w-24 h-24 top-[60%] right-[8%] -rotate-12 opacity-20"></div>
+    <div class="float-shape w-12 h-12 top-[30%] right-[20%] rotate-45 opacity-25"></div>
+    <div class="float-shape w-20 h-20 bottom-[20%] left-[15%] -rotate-6 opacity-15"></div>
+    <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-neon-cyan/4 rounded-full blur-[140px] animate-pulse"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-neon-purple/4 rounded-full blur-[120px] animate-pulse" style="animation-delay:-2s"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-6 py-32 text-center" id="heroContent" style="opacity:0;transform:translateY(30px)">
+        <div class="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-8">
+            <div class="pulse-dot"></div>
+            <span class="text-xs font-medium dark:text-gray-300 text-gray-600 tracking-wide">Available for opportunities</span>
+        </div>
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.95] mb-4">
+            <span class="text-neon-cyan">M KIRAN</span>
+        </h1>
+        <p class="text-lg md:text-xl dark:text-gray-400 text-gray-500 font-medium mb-2">Student <span class="mx-2 dark:text-gray-600 text-gray-300">|</span> Developer</p>
+        <div class="h-8 mb-8 flex items-center justify-center">
+            <span class="text-base md:text-lg dark:text-gray-300 text-gray-600 font-mono" id="typingText"></span>
+            <span class="typing-cursor"></span>
+        </div>
+        <p class="text-sm dark:text-gray-500 text-gray-400 max-w-lg mx-auto mb-10 leading-relaxed">Passionate about AI, Innovation and Emerging Technologies. Building the future, one project at a time.</p>
+        <div class="flex flex-col sm:flex-row items-center gap-4 justify-center">
+            <a href="#projects" class="btn-primary text-sm tracking-wide gap-2"><i class="fas fa-rocket text-xs"></i> View Projects</a>
+            <a href="#contact" class="btn-outline text-sm tracking-wide gap-2"><i class="fas fa-envelope text-xs"></i> Contact Me</a>
+        </div>
+        <div class="flex items-center gap-4 mt-10 justify-center">
+            <a href="https://github.com/kiran2007-dotcom/kiran2007-dotcom" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl glass flex items-center justify-center dark:text-gray-400 text-gray-500 hover:dark:text-neon-cyan hover:text-blue-500 transition-all duration-300 hover:scale-110 hover:-translate-y-1"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/m-kiran-8913253a8/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl glass flex items-center justify-center dark:text-gray-400 text-gray-500 hover:dark:text-neon-cyan hover:text-blue-500 transition-all duration-300 hover:scale-110 hover:-translate-y-1"><i class="fab fa-linkedin-in"></i></a>
+            <a href="mailto:kiranmanju2007@gmail.com" class="w-10 h-10 rounded-xl glass flex items-center justify-center dark:text-gray-400 text-gray-500 hover:dark:text-neon-cyan hover:text-blue-500 transition-all duration-300 hover:scale-110 hover:-translate-y-1"><i class="fas fa-envelope"></i></a>
+            <a href="tel:+917019447558" class="w-10 h-10 rounded-xl glass flex items-center justify-center dark:text-gray-400 text-gray-500 hover:dark:text-neon-cyan hover:text-blue-500 transition-all duration-300 hover:scale-110 hover:-translate-y-1"><i class="fas fa-phone"></i></a>
+        </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+        <span class="text-[10px] font-mono dark:text-gray-500 text-gray-400 tracking-widest uppercase">Scroll</span>
+        <div class="w-5 h-8 rounded-full border border-current dark:text-gray-500 text-gray-400 flex items-start justify-center p-1">
+            <div class="w-1 h-2 rounded-full bg-current animate-bounce"></div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider max-w-4xl mx-auto"></div>
+
+<!-- ========== ABOUT ========== -->
+<section id="about" class="relative py-28 md:py-36">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-20 reveal">
+            <span class="text-[10px] font-mono font-bold text-neon-cyan tracking-[0.3em] uppercase mb-4 block">Get to Know Me</span>
+            <h2 class="text-4xl md:text-5xl font-bold tracking-tight dark:text-white text-gray-900">About <span class="gradient-text">Me</span></h2>
+        </div>
+        <div class="grid lg:grid-cols-2 gap-16 items-start">
+            <div class="reveal-left">
+                <h3 class="text-2xl font-semibold dark:text-white text-gray-900 mb-6">Who I Am</h3>
+                <p class="dark:text-gray-400 text-gray-600 leading-relaxed mb-6">I am a Computer Science student deeply interested in <span class="text-neon-cyan font-medium">Artificial Intelligence</span>, <span class="text-neon-cyan font-medium">Web Development</span>, <span class="text-neon-cyan font-medium">Emerging Technologies</span>, and <span class="text-neon-cyan font-medium">Hackathons</span>. I enjoy building innovative projects, solving real-world problems, and continuously learning new technologies.</p>
+                <p class="dark:text-gray-400 text-gray-600 leading-relaxed mb-8">My goal is to leverage technology to create meaningful solutions that make a difference. I thrive in collaborative environments and love the energy of hackathons where ideas come to life under pressure.</p>
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-neon-cyan/15 to-neon-blue/15 flex items-center justify-center flex-shrink-0"><i class="fas fa-graduation-cap text-neon-cyan text-lg"></i></div>
+                        <div><h4 class="font-semibold dark:text-white text-gray-900 mb-1">BCA — Computer Science</h4><p class="text-sm dark:text-gray-500 text-gray-400">Pursuing Bachelor of Computer Applications with focus on AI & Software Development</p></div>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-neon-purple/15 to-neon-pink/15 flex items-center justify-center flex-shrink-0"><i class="fas fa-bullseye text-neon-purple text-lg"></i></div>
+                        <div><h4 class="font-semibold dark:text-white text-gray-900 mb-1">Career Goal</h4><p class="text-sm dark:text-gray-500 text-gray-400">Aspire to work at the intersection of AI and product development, building intelligent systems that solve real-world challenges.</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal-right">
+                <h3 class="text-2xl font-semibold dark:text-white text-gray-900 mb-6">Interests & Focus Areas</h3>
+                <div class="grid grid-cols-2 gap-4 stagger-children" id="interestsGrid">
+                    <div class="glass-card rounded-2xl p-6 text-center group">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-neon-cyan/10 to-neon-cyan/5 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"><i class="fas fa-brain text-neon-cyan text-xl"></i></div>
+                        <h4 class="font-semibold text-sm dark:text-white text-gray-900 mb-1">Artificial Intelligence</h4><p class="text-xs dark:text-gray-500 text-gray-400">ML, DL, NLP, GenAI</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 text-center group">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-neon-blue/10 to-neon-blue/5 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"><i class="fas fa-code text-neon-blue text-xl"></i></div>
+                        <h4 class="font-semibold text-sm dark:text-white text-gray-900 mb-1">Web Development</h4><p class="text-xs dark:text-gray-500 text-gray-400">Frontend & Backend</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 text-center group">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-neon-purple/10 to-neon-purple/5 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"><i class="fas fa-microchip text-neon-purple text-xl"></i></div>
+                        <h4 class="font-semibold text-sm dark:text-white text-gray-900 mb-1">Emerging Tech</h4><p class="text-xs dark:text-gray-500 text-gray-400">Blockchain, IoT, AR/VR</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 text-center group">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-neon-green/10 to-neon-green/5 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"><i class="fas fa-trophy text-neon-green text-xl"></i></div>
+                        <h4 class="font-semibold text-sm dark:text-white text-gray-900 mb-1">Hackathons</h4><p class="text-xs dark:text-gray-500 text-gray-400">Competitions & Builds</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-4 mt-6 stagger-children" id="statsGrid">
+                    <div class="glass-card rounded-2xl p-5 text-center"><div class="text-2xl md:text-3xl font-bold gradient-text counter" data-target="10">0</div><p class="text-xs dark:text-gray-500 text-gray-400 mt-1">Projects</p></div>
+                    <div class="glass-card rounded-2xl p-5 text-center"><div class="text-2xl md:text-3xl font-bold gradient-text counter" data-target="7">0</div><p class="text-xs dark:text-gray-500 text-gray-400 mt-1">Skills</p></div>
+                    <div class="glass-card rounded-2xl p-5 text-center"><div class="text-2xl md:text-3xl font-bold gradient-text counter" data-target="3">0</div><p class="text-xs dark:text-gray-500 text-gray-400 mt-1">Certificates</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider max-w-4xl mx-auto"></div>
+
+<!-- ========== SKILLS ========== -->
+<section id="skills" class="relative py-28 md:py-36">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-20 reveal">
+            <span class="text-[10px] font-mono font-bold text-neon-cyan tracking-[0.3em] uppercase mb-4 block">What I Know</span>
+            <h2 class="text-4xl md:text-5xl font-bold tracking-tight dark:text-white text-gray-900">My <span class="gradient-text">Skills</span></h2>
+        </div>
+        <div class="grid lg:grid-cols-2 gap-16">
+            <div class="space-y-6 reveal-left" id="skillsBars">
+                <div class="skill-item"><div class="flex items-center justify-between mb-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center"><i class="fab fa-html5 text-orange-500 text-sm"></i></div><span class="font-medium text-sm dark:text-white text-gray-900">HTML</span></div><span class="text-sm font-mono text-neon-cyan">95%</span></div><div class="h-2 dark:bg-white/5 bg-gray-200 rounded-full overflow-hidden"><div class="progress-fill h-full rounded-full bg-gradient-to-r from-orange-500 to-orange-400" style="--target-width:95%"></div></div></div>
+                <div class="skill-item"><div class="flex items-center justify-between mb-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center"><i class="fab fa-css3-alt text-blue-500 text-sm"></i></div><span class="font-medium text-sm dark:text-white text-gray-900">CSS</span></div><span class="text-sm font-mono text-neon-cyan">90%</span></div><div class="h-2 dark:bg-white/5 bg-gray-200 rounded-full overflow-hidden"><div class="progress-fill h-full rounded-full bg-gradient-to-r from-blue-600 to-blue-400" style="--target-width:90%"></div></div></div>
+                <div class="skill-item"><div class="flex items-center justify-between mb-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-yellow-500/10 flex items-center justify-center"><i class="fab fa-js text-yellow-500 text-sm"></i></div><span class="font-medium text-sm dark:text-white text-gray-900">JavaScript</span></div><span class="text-sm font-mono text-neon-cyan">85%</span></div><div class="h-2 dark:bg-white/5 bg-gray-200 rounded-full overflow-hidden"><div class="progress-fill h-full rounded-full bg-gradient-to-r from-yellow-500 to-yellow-400" style="--target-width:85%"></div></div></div>
+                <div class="skill-item"><div class="flex items-center justify-between mb-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center"><i class="fab fa-java text-red-500 text-sm"></i></div><span class="font-medium text-sm dark:text-white text-gray-900">Java</span></div><span class="text-sm font-mono text-neon-cyan">80%</span></div><div class="h-2 dark:bg-white/5 bg-gray-200 rounded-full overflow-hidden"><div class="progress-fill h-full rounded-full bg-gradient-to-r from-red-600 to-red-400" style="--target-width:80%"></div></div></div>
+                <div class="skill-item"><div class="flex items-center justify-between mb-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center"><i class="fab fa-python text-green-500 text-sm"></i></div><span class="font-medium text-sm dark:text-white text-gray-900">Python</span></div><span class="text-sm font-mono text-neon-cyan">80%</span></div><div class="h-2 dark:bg-white/5 bg-gray-200 rounded-full overflow-hidden"><div class="progress-fill h-full rounded-full bg-gradient-to-r from-green-600 to-green-400" style="--target-width:80%"></div></div></div>
+                <div class="skill-item"><div class="flex items-center justify-between mb-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-neon-cyan/10 flex items-center justify-center"><i class="fas fa-robot text-neon-cyan text-sm"></i></div><span class="font-medium text-sm dark:text-white text-gray-900">Artificial Intelligence</span></div><span class="text-sm font-mono text-neon-cyan">85%</span></div><div class="h-2 dark:bg-white/5 bg-gray-200 rounded-full overflow-hidden"><div class="progress-fill h-full rounded-full bg-gradient-to-r from-neon-cyan to-blue-500" style="--target-width:85%"></div></div></div>
+                <div class="skill-item"><div class="flex items-center justify-between mb-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-neon-purple/10 flex items-center justify-center"><i class="fas fa-globe text-neon-purple text-sm"></i></div><span class="font-medium text-sm dark:text-white text-gray-900">Web Development</span></div><span class="text-sm font-mono text-neon-cyan">90%</span></div><div class="h-2 dark:bg-white/5 bg-gray-200 rounded-full overflow-hidden"><div class="progress-fill h-full rounded-full bg-gradient-to-r from-neon-purple to-pink-500" style="--target-width:90%"></div></div></div>
+            </div>
+            <div class="reveal-right space-y-6">
+                <div class="glass-card rounded-2xl p-8">
+                    <h3 class="text-lg font-semibold dark:text-white text-gray-900 mb-6 flex items-center gap-2"><i class="fas fa-layer-group text-neon-cyan text-sm"></i> Skill Categories</h3>
+                    <div class="mb-5"><h4 class="text-sm font-medium dark:text-gray-300 text-gray-600 mb-3">Web Technologies</h4><div class="flex flex-wrap gap-2"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">JavaScript</span><span class="tech-tag">Tailwind CSS</span><span class="tech-tag">Bootstrap</span><span class="tech-tag">React</span></div></div>
+                    <div class="mb-5"><h4 class="text-sm font-medium dark:text-gray-300 text-gray-600 mb-3">Languages</h4><div class="flex flex-wrap gap-2"><span class="tech-tag">Python</span><span class="tech-tag">Java</span><span class="tech-tag">JavaScript</span><span class="tech-tag">SQL</span></div></div>
+                    <div><h4 class="text-sm font-medium dark:text-gray-300 text-gray-600 mb-3">AI & Tools</h4><div class="flex flex-wrap gap-2"><span class="tech-tag">Machine Learning</span><span class="tech-tag">Deep Learning</span><span class="tech-tag">NLP</span><span class="tech-tag">TensorFlow</span><span class="tech-tag">Git</span><span class="tech-tag">VS Code</span></div></div>
+                </div>
+                <div class="glass-card rounded-2xl p-8">
+                    <h3 class="text-lg font-semibold dark:text-white text-gray-900 mb-4 flex items-center gap-2"><i class="fas fa-bolt text-yellow-400 text-sm"></i> Currently Learning</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-neon-cyan animate-pulse"></div><span class="text-sm dark:text-gray-300 text-gray-600">Generative AI & LLMs</span></div>
+                        <div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-neon-purple animate-pulse" style="animation-delay:.3s"></div><span class="text-sm dark:text-gray-300 text-gray-600">Agentic AI Systems</span></div>
+                        <div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-neon-pink animate-pulse" style="animation-delay:.6s"></div><span class="text-sm dark:text-gray-300 text-gray-600">Full-Stack Development</span></div>
+                        <div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-neon-green animate-pulse" style="animation-delay:.9s"></div><span class="text-sm dark:text-gray-300 text-gray-600">Cloud Computing</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider max-w-4xl mx-auto"></div>
+
+<!-- ========== PROJECTS ========== -->
+<section id="projects" class="relative py-28 md:py-36">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-20 reveal">
+            <span class="text-[10px] font-mono font-bold text-neon-cyan tracking-[0.3em] uppercase mb-4 block">What I've Built</span>
+            <h2 class="text-4xl md:text-5xl font-bold tracking-tight dark:text-white text-gray-900">My <span class="gradient-text">Projects</span></h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8 stagger-children" id="projectsGrid">
+
+            <!-- SBI EngageAI -->
+            <div class="glass-card rounded-2xl overflow-hidden group">
+                <div class="relative h-52 overflow-hidden">
+                    <img src="https://z-cdn-media.chatglm.cn/files/e4906280-555c-401a-a83f-91e8d2bf3be8.png?auth_key=1883408696-18b461c4690b41619832344460e8761c-0-0ce09606bb986643af8e36304f2a94d5" alt="SBI Hackathon at GFF 2026 — Build the Future of Banking with SBI" class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                    <div class="absolute top-4 left-4 flex gap-2">
+                        <span class="px-3 py-1 rounded-full bg-neon-cyan/20 text-neon-cyan text-[10px] font-bold tracking-wider uppercase backdrop-blur-sm border border-neon-cyan/20">Featured</span>
+                        <span class="px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-[10px] font-bold tracking-wider uppercase backdrop-blur-sm border border-green-500/20">Live</span>
+                    </div>
+                    <div class="absolute bottom-4 right-4">
+                        <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-bold tracking-wider uppercase backdrop-blur-sm border border-purple-500/20">GFF 2026</span>
+                    </div>
+                </div>
+                <div class="p-7">
+                    <div class="flex items-center gap-2 mb-2"><i class="fas fa-university text-neon-cyan text-xs"></i><span class="text-[10px] font-mono dark:text-gray-500 text-gray-400 tracking-wider uppercase">SBI Hackathon + AI</span></div>
+                    <h3 class="text-xl font-bold dark:text-white text-gray-900 mb-3 group-hover:text-neon-cyan transition-colors">SBI EngageAI</h3>
+                    <p class="text-sm dark:text-gray-400 text-gray-600 leading-relaxed mb-5">AI-powered digital engagement banking platform built for <span class="text-neon-cyan font-medium">SBI Hackathon at Global Fintech Fest 2026</span> — "Build the Future of Banking with SBI" — using Agentic AI and Emerging Technologies.</p>
+                    <div class="flex flex-wrap gap-2 mb-6"><span class="tech-tag text-[10px]">Agentic AI</span><span class="tech-tag text-[10px]">NLP</span><span class="tech-tag text-[10px]">Banking Tech</span><span class="tech-tag text-[10px]">GFF 2026</span></div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="window.open('https://07fd5791-e5c0-46ea-9cf2-130475e88c75-00-27cwoag8elk98.sisko.replit.dev/','_blank')" class="btn-primary text-xs !py-2.5 !px-5 gap-1.5 live-link"><i class="fas fa-external-link-alt text-[10px]"></i> Live Demo</button>
+                        <button onclick="window.open('https://github.com/kiran2007-dotcom/kiran2007-dotcom','_blank')" class="btn-outline text-xs !py-2.5 !px-5 gap-1.5 live-link"><i class="fab fa-github text-[10px]"></i> GitHub</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Piracy Shield -->
+            <div class="glass-card rounded-2xl overflow-hidden group">
+                <div class="relative h-52 overflow-hidden">
+                    <img src="https://picsum.photos/seed/ai-piracy-shield-security/700/400.jpg" alt="AI Piracy Shield" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                    <div class="absolute top-4 left-4 flex gap-2">
+                        <span class="px-3 py-1 rounded-full bg-neon-purple/20 text-neon-purple text-[10px] font-bold tracking-wider uppercase backdrop-blur-sm border border-neon-purple/20">AI/ML</span>
+                        <span class="px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-[10px] font-bold tracking-wider uppercase backdrop-blur-sm border border-green-500/20">Live</span>
+                    </div>
+                </div>
+                <div class="p-7">
+                    <div class="flex items-center gap-2 mb-2"><i class="fas fa-shield-alt text-neon-purple text-xs"></i><span class="text-[10px] font-mono dark:text-gray-500 text-gray-400 tracking-wider uppercase">Security + AI</span></div>
+                    <h3 class="text-xl font-bold dark:text-white text-gray-900 mb-3 group-hover:text-neon-cyan transition-colors">AI Piracy Shield</h3>
+                    <p class="text-sm dark:text-gray-400 text-gray-600 leading-relaxed mb-5">Intelligent anti-piracy system powered by AI that detects, tracks, and prevents digital content piracy.</p>
+                    <div class="flex flex-wrap gap-2 mb-6"><span class="tech-tag text-[10px]">Python</span><span class="tech-tag text-[10px]">Machine Learning</span><span class="tech-tag text-[10px]">Security</span></div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="window.open('https://aipiracyshield.netlify.app','_blank')" class="btn-primary text-xs !py-2.5 !px-5 gap-1.5 live-link"><i class="fas fa-external-link-alt text-[10px]"></i> Live Demo</button>
+                        <button onclick="window.open('https://github.com/kiran2007-dotcom/kiran2007-dotcom','_blank')" class="btn-outline text-xs !py-2.5 !px-5 gap-1.5 live-link"><i class="fab fa-github text-[10px]"></i> GitHub</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hackathon Projects -->
+            <div class="glass-card rounded-2xl overflow-hidden group">
+                <div class="relative h-52 overflow-hidden">
+                    <img src="https://picsum.photos/seed/hackathon-innovation-build/700/400.jpg" alt="Hackathon Projects" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                    <div class="absolute top-4 left-4"><span class="px-3 py-1 rounded-full bg-yellow-400/20 text-yellow-400 text-[10px] font-bold tracking-wider uppercase backdrop-blur-sm border border-yellow-400/20">Hackathon</span></div>
+                </div>
+                <div class="p-7">
+                    <div class="flex items-center gap-2 mb-2"><i class="fas fa-trophy text-yellow-400 text-xs"></i><span class="text-[10px] font-mono dark:text-gray-500 text-gray-400 tracking-wider uppercase">Competitions</span></div>
+                    <h3 class="text-xl font-bold dark:text-white text-gray-900 mb-3 group-hover:text-neon-cyan transition-colors">Hackathon Projects</h3>
+                    <p class="text-sm dark:text-gray-400 text-gray-600 leading-relaxed mb-5">Collection of innovative hackathon projects involving AI and emerging technologies.</p>
+                    <div class="flex flex-wrap gap-2 mb-6"><span class="tech-tag text-[10px]">AI/ML</span><span class="tech-tag text-[10px]">Python</span><span class="tech-tag text-[10px]">Rapid Prototyping</span></div>
+                    <div class="flex items-center gap-3"><button onclick="window.open('https://github.com/kiran2007-dotcom/kiran2007-dotcom','_blank')" class="btn-primary text-xs !py-2.5 !px-5 gap-1.5 live-link"><i class="fab fa-github text-[10px]"></i> View on GitHub</button></div>
+                </div>
+            </div>
+
+            <!-- Personal Projects -->
+            <div class="glass-card rounded-2xl overflow-hidden group">
+                <div class="relative h-52 overflow-hidden">
+                    <img src="https://picsum.photos/seed/personal-dev-experiments/700/400.jpg" alt="Personal Projects" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                    <div class="absolute top-4 left-4"><span class="px-3 py-1 rounded-full bg-neon-green/20 text-neon-green text-[10px] font-bold tracking-wider uppercase backdrop-blur-sm border border-neon-green/20">Personal</span></div>
+                </div>
+                <div class="p-7">
+                    <div class="flex items-center gap-2 mb-2"><i class="fas fa-flask text-neon-green text-xs"></i><span class="text-[10px] font-mono dark:text-gray-500 text-gray-400 tracking-wider uppercase">Exploration</span></div>
+                    <h3 class="text-xl font-bold dark:text-white text-gray-900 mb-3 group-hover:text-neon-cyan transition-colors">Personal Projects</h3>
+                    <p class="text-sm dark:text-gray-400 text-gray-600 leading-relaxed mb-5">Creative projects developed for learning and experimentation with cutting-edge technologies.</p>
+                    <div class="flex flex-wrap gap-2 mb-6"><span class="tech-tag text-[10px]">Web Dev</span><span class="tech-tag text-[10px]">JavaScript</span><span class="tech-tag text-[10px]">Python</span></div>
+                    <div class="flex items-center gap-3"><button onclick="window.open('https://github.com/kiran2007-dotcom/kiran2007-dotcom','_blank')" class="btn-primary text-xs !py-2.5 !px-5 gap-1.5 live-link"><i class="fab fa-github text-[10px]"></i> View on GitHub</button></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div class="section-divider max-w-4xl mx-auto"></div>
+
+<!-- ========== CERTIFICATES ========== -->
+<section id="certificates" class="relative py-28 md:py-36">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-20 reveal">
+            <span class="text-[10px] font-mono font-bold text-neon-cyan tracking-[0.3em] uppercase mb-4 block">Achievements</span>
+            <h2 class="text-4xl md:text-5xl font-bold tracking-tight dark:text-white text-gray-900">My <span class="gradient-text">Certificates</span></h2>
+            <p class="text-sm dark:text-gray-500 text-gray-400 mt-4 max-w-md mx-auto">Click on any certificate to view it in full size</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8 stagger-children" id="certsGrid">
+            <div class="cert-card glass-card rounded-2xl h-[420px]" onclick="openCert('https://z-cdn-media.chatglm.cn/files/2dc2c27c-9ea0-4849-8023-c6226528d8f2.jpg?auth_key=1883348498-f43bcf1b90d54db582b6a03b815e1e59-0-427a519f483dc17ac2e3372f2651e929')">
+                <img src="https://z-cdn-media.chatglm.cn/files/2dc2c27c-9ea0-4849-8023-c6226528d8f2.jpg?auth_key=1883348498-f43bcf1b90d54db582b6a03b815e1e59-0-427a519f483dc17ac2e3372f2651e929" alt="DS & ML Certificate" loading="lazy">
+                <div class="cert-overlay"><div class="flex items-center gap-2 mb-2"><i class="fas fa-award text-neon-cyan text-sm"></i><span class="text-[10px] font-mono text-neon-cyan tracking-wider uppercase">Tutorialspoint</span></div><h4 class="text-white font-bold text-sm mb-1">Mastering Data Science & Machine Learning</h4><p class="text-gray-300 text-xs">Full Stack Bootcamp • 13.5 hours</p><div class="flex items-center gap-1 mt-2"><i class="fas fa-search-plus text-gray-400 text-[10px]"></i><span class="text-gray-400 text-[10px]">Click to zoom</span></div></div>
+            </div>
+            <div class="cert-card glass-card rounded-2xl h-[420px]" onclick="openCert('https://z-cdn-media.chatglm.cn/files/33412340-c06c-41bc-97f2-76ec48c76920.jpg?auth_key=1883348498-0c0d83df3850415fa8a24c370e86edba-0-01d1df965e8cc561791bb566b884e0d1')">
+                <img src="https://z-cdn-media.chatglm.cn/files/33412340-c06c-41bc-97f2-76ec48c76920.jpg?auth_key=1883348498-0c0d83df3850415fa8a24c370e86edba-0-01d1df965e8cc561791bb566b884e0d1" alt="Python Certificate" loading="lazy">
+                <div class="cert-overlay"><div class="flex items-center gap-2 mb-2"><i class="fas fa-award text-neon-green text-sm"></i><span class="text-[10px] font-mono text-neon-green tracking-wider uppercase">Tutorialspoint</span></div><h4 class="text-white font-bold text-sm mb-1">Introduction to Python</h4><p class="text-gray-300 text-xs">For Complete Beginners • TP-8KCP0I10</p><div class="flex items-center gap-1 mt-2"><i class="fas fa-search-plus text-gray-400 text-[10px]"></i><span class="text-gray-400 text-[10px]">Click to zoom</span></div></div>
+            </div>
+            <div class="cert-card glass-card rounded-2xl h-[420px]" onclick="openCert('https://z-cdn-media.chatglm.cn/files/d1698fa7-3035-45a3-8564-bcb5873599b0.jpg?auth_key=1883348498-057bc62d2dbe4691aaa8adce9e01881f-0-7c617fa7ff679b909a4eaafb70fd555f')">
+                <img src="https://z-cdn-media.chatglm.cn/files/d1698fa7-3035-45a3-8564-bcb5873599b0.jpg?auth_key=1883348498-057bc62d2dbe4691aaa8adce9e01881f-0-7c617fa7ff679b909a4eaafb70fd555f" alt="Software Testing Certificate" loading="lazy">
+                <div class="cert-overlay"><div class="flex items-center gap-2 mb-2"><i class="fas fa-award text-neon-purple text-sm"></i><span class="text-[10px] font-mono text-neon-purple tracking-wider uppercase">Tutorialspoint</span></div><h4 class="text-white font-bold text-sm mb-1">Introduction to Software Testing</h4><p class="text-gray-300 text-xs">Software Testing as a Career</p><div class="flex items-center gap-1 mt-2"><i class="fas fa-search-plus text-gray-400 text-[10px]"></i><span class="text-gray-400 text-[10px]">Click to zoom</span></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider max-w-4xl mx-auto"></div>
+
+<!-- ========== CONTACT ========== -->
+<section id="contact" class="relative py-28 md:py-36">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-20 reveal">
+            <span class="text-[10px] font-mono font-bold text-neon-cyan tracking-[0.3em] uppercase mb-4 block">Let's Connect</span>
+            <h2 class="text-4xl md:text-5xl font-bold tracking-tight dark:text-white text-gray-900">Get in <span class="gradient-text">Touch</span></h2>
+        </div>
+        <div class="grid lg:grid-cols-5 gap-12">
+            <div class="lg:col-span-2 space-y-6 reveal-left">
+                <p class="dark:text-gray-400 text-gray-600 leading-relaxed mb-8">I'm always open to discussing new projects, creative ideas, or opportunities. Let's build something amazing together.</p>
+                <a href="mailto:kiranmanju2007@gmail.com" class="glass-card rounded-2xl p-5 flex items-center gap-4 group block">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-neon-cyan/15 to-neon-blue/15 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300"><i class="fas fa-envelope text-neon-cyan"></i></div>
+                    <div><p class="text-xs dark:text-gray-500 text-gray-400 mb-0.5">Email</p><p class="text-sm font-medium dark:text-white text-gray-900 break-all">kiranmanju2007@gmail.com</p></div>
+                </a>
+                <a href="tel:+917019447558" class="glass-card rounded-2xl p-5 flex items-center gap-4 group block">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-neon-green/15 to-neon-cyan/15 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300"><i class="fas fa-phone text-neon-green"></i></div>
+                    <div><p class="text-xs dark:text-gray-500 text-gray-400 mb-0.5">Phone</p><p class="text-sm font-medium dark:text-white text-gray-900">+91 7019447558</p></div>
+                </a>
+                <a href="https://www.linkedin.com/in/m-kiran-8913253a8/" target="_blank" rel="noopener noreferrer" class="glass-card rounded-2xl p-5 flex items-center gap-4 group block">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600/15 to-blue-400/15 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300"><i class="fab fa-linkedin-in text-blue-500"></i></div>
+                    <div><p class="text-xs dark:text-gray-500 text-gray-400 mb-0.5">LinkedIn</p><p class="text-sm font-medium dark:text-white text-gray-900">M Kiran</p></div>
+                </a>
+                <a href="https://github.com/kiran2007-dotcom/kiran2007-dotcom" target="_blank" rel="noopener noreferrer" class="glass-card rounded-2xl p-5 flex items-center gap-4 group block">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-500/15 to-gray-400/15 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300"><i class="fab fa-github text-gray-400"></i></div>
+                    <div><p class="text-xs dark:text-gray-500 text-gray-400 mb-0.5">GitHub</p><p class="text-sm font-medium dark:text-white text-gray-900">kiran2007-dotcom</p></div>
+                </a>
+            </div>
+            <div class="lg:col-span-3 reveal-right">
+                <form id="contactForm" class="glass-card rounded-2xl p-8 space-y-5">
+                    <div class="grid sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-medium dark:text-gray-400 text-gray-500 mb-2 uppercase tracking-wider">Name</label>
+                            <input type="text" class="form-input" placeholder="Your name" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium dark:text-gray-400 text-gray-500 mb-2 uppercase tracking-wider">Email</label>
+                            <input type="email" class="form-input" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium dark:text-gray-400 text-gray-500 mb-2 uppercase tracking-wider">Subject</label>
+                        <input type="text" class="form-input" placeholder="What's this about?" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium dark:text-gray-400 text-gray-500 mb-2 uppercase tracking-wider">Message</label>
+                        <textarea class="form-input min-h-[140px] resize-none" placeholder="Tell me about your project or idea..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary w-full justify-center text-sm tracking-wide gap-2"><i class="fas fa-paper-plane text-xs"></i> Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider max-w-4xl mx-auto"></div>
+
+<!-- ========== THANK YOU ========== -->
+<section id="thankyou" class="relative py-36 md:py-48 overflow-hidden">
+    <!-- Ambient glows -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-cyan/5 rounded-full blur-[180px] animate-pulse"></div>
+    <div class="absolute top-1/3 left-1/3 w-[300px] h-[300px] bg-neon-purple/5 rounded-full blur-[120px] animate-pulse" style="animation-delay:-1.5s"></div>
+    <div class="absolute bottom-1/3 right-1/3 w-[250px] h-[250px] bg-neon-pink/5 rounded-full blur-[100px] animate-pulse" style="animation-delay:-3s"></div>
+
+    <div class="relative z-10 max-w-3xl mx-auto px-6 text-center reveal" id="thankYouSection">
+
+        <!-- Expanding rings -->
+        <div class="relative flex items-center justify-center mb-10">
+            <div class="thankyou-ring" style="position:absolute"></div>
+            <div class="thankyou-ring" style="position:absolute"></div>
+            <div class="thankyou-ring" style="position:absolute"></div>
+            <!-- Heart icon -->
+            <div class="relative w-20 h-20 flex items-center justify-center">
+                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-neon-cyan/20 via-neon-purple/15 to-neon-pink/20 animate-pulse"></div>
+                <i class="fas fa-heart text-3xl thankyou-heart" style="background:linear-gradient(135deg,#00f0ff,#a855f7,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text"></i>
+            </div>
+        </div>
+
+        <!-- Main text -->
+        <h2 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-6 thankyou-glow">
+            <span class="gradient-text">Thank You!</span>
+        </h2>
+
+        <!-- Decorative line -->
+        <div class="flex items-center justify-center gap-3 mb-8">
+            <div class="w-12 h-[1px] bg-gradient-to-r from-transparent to-neon-cyan/40"></div>
+            <div class="w-2 h-2 rounded-full bg-neon-cyan/50"></div>
+            <div class="w-2 h-2 rounded-full bg-neon-purple/50"></div>
+            <div class="w-2 h-2 rounded-full bg-neon-pink/50"></div>
+            <div class="w-12 h-[1px] bg-gradient-to-l from-transparent to-neon-pink/40"></div>
+        </div>
+
+        <!-- Subtitle -->
+        <p class="text-base md:text-lg dark:text-gray-400 text-gray-500 leading-relaxed max-w-md mx-auto mb-10">
+            For taking the time to explore my work. <br class="hidden sm:block">
+            Your visit means the world to me <span class="inline-block thankyou-heart" style="font-size:14px;color:#ec4899">♥</span>
+        </p>
+
+        <!-- CTA buttons -->
+        <div class="flex flex-col sm:flex-row items-center gap-4 justify-center mb-12">
+            <a href="#home" class="btn-primary text-sm tracking-wide gap-2"><i class="fas fa-arrow-up text-xs"></i> Back to Top</a>
+            <a href="mailto:kiranmanju2007@gmail.com" class="btn-outline text-sm tracking-wide gap-2"><i class="fas fa-envelope text-xs"></i> Say Hello</a>
+        </div>
+
+        <!-- Social icons -->
+        <div class="flex items-center gap-3 justify-center">
+            <a href="https://github.com/kiran2007-dotcom/kiran2007-dotcom" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-xl glass flex items-center justify-center dark:text-gray-400 text-gray-500 hover:dark:text-neon-cyan hover:text-blue-500 transition-all duration-300 hover:scale-110 hover:-translate-y-1"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/m-kiran-8913253a8/" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-xl glass flex items-center justify-center dark:text-gray-400 text-gray-500 hover:dark:text-neon-cyan hover:text-blue-500 transition-all duration-300 hover:scale-110 hover:-translate-y-1"><i class="fab fa-linkedin-in"></i></a>
+            <a href="mailto:kiranmanju2007@gmail.com" class="w-11 h-11 rounded-xl glass flex items-center justify-center dark:text-gray-400 text-gray-500 hover:dark:text-neon-cyan hover:text-blue-500 transition-all duration-300 hover:scale-110 hover:-translate-y-1"><i class="fas fa-envelope"></i></a>
+            <a href="tel:+917019447558" class="w-11 h-11 rounded-xl glass flex items-center justify-center dark:text-gray-400 text-gray-500 hover:dark:text-neon-cyan hover:text-blue-500 transition-all duration-300 hover:scale-110 hover:-translate-y-1"><i class="fas fa-phone"></i></a>
+        </div>
+
+        <!-- Sparkles (positioned by JS) -->
+        <div id="sparkleContainer" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+    </div>
+
+    <!-- Twinkling stars -->
+    <i class="thankyou-star fas fa-sparkle text-neon-cyan/30 text-[8px] absolute top-[15%] left-[12%]" style="animation-delay:0s"></i>
+    <i class="thankyou-star fas fa-star text-neon-purple/30 text-[6px] absolute top-[25%] right-[18%]" style="animation-delay:0.7s"></i>
+    <i class="thankyou-star fas fa-sparkle text-neon-pink/30 text-[7px] absolute bottom-[20%] left-[20%]" style="animation-delay:1.4s"></i>
+    <i class="thankyou-star fas fa-star text-neon-cyan/25 text-[5px] absolute bottom-[30%] right-[15%]" style="animation-delay:0.3s"></i>
+    <i class="thankyou-star fas fa-sparkle text-neon-purple/25 text-[6px] absolute top-[40%] left-[8%]" style="animation-delay:1s"></i>
+    <i class="thankyou-star fas fa-star text-neon-pink/20 text-[4px] absolute top-[18%] right-[30%]" style="animation-delay:1.8s"></i>
+    <i class="thankyou-star fas fa-sparkle text-neon-cyan/20 text-[5px] absolute bottom-[15%] right-[35%]" style="animation-delay:0.5s"></i>
+    <i class="thankyou-star fas fa-star text-neon-purple/20 text-[7px] absolute top-[60%] left-[25%]" style="animation-delay:2.1s"></i>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="relative py-12 border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-md bg-gradient-to-br from-neon-cyan to-neon-purple flex items-center justify-center text-black font-bold text-[10px]">MK</div>
+            <span class="text-sm font-medium dark:text-gray-400 text-gray-500">© 2025 M Kiran. All rights reserved.</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="https://github.com/kiran2007-dotcom/kiran2007-dotcom" target="_blank" rel="noopener noreferrer" class="dark:text-gray-500 text-gray-400 hover:dark:text-neon-cyan hover:text-blue-500 transition-colors text-sm"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/m-kiran-8913253a8/" target="_blank" rel="noopener noreferrer" class="dark:text-gray-500 text-gray-400 hover:dark:text-neon-cyan hover:text-blue-500 transition-colors text-sm"><i class="fab fa-linkedin-in"></i></a>
+            <a href="mailto:kiranmanju2007@gmail.com" class="dark:text-gray-500 text-gray-400 hover:dark:text-neon-cyan hover:text-blue-500 transition-colors text-sm"><i class="fas fa-envelope"></i></a>
+        </div>
+    </div>
+</footer>
+
+<script>
+// ========== PARTICLES ==========
+const canvas=document.getElementById('particles-canvas'),ctx=canvas.getContext('2d');
+let particles=[],mouseX=0,mouseY=0;
+function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+resizeCanvas();window.addEventListener('resize',resizeCanvas);
+class Particle{constructor(){this.reset()}reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.size=Math.random()*1.5+0.5;this.speedX=(Math.random()-0.5)*0.3;this.speedY=(Math.random()-0.5)*0.3;this.opacity=Math.random()*0.4+0.1}update(){this.x+=this.speedX;this.y+=this.speedY;if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height)this.reset()}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fillStyle=`rgba(0,240,255,${this.opacity})`;ctx.fill()}}
+for(let i=0;i<60;i++)particles.push(new Particle());
+function animateParticles(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{p.update();p.draw()});for(let i=0;i<particles.length;i++){for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<120){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(0,240,255,${0.06*(1-dist/120)})`;ctx.stroke()}}}requestAnimationFrame(animateParticles)}
+animateParticles();
+
+// ========== MOUSE FOLLOWER ==========
+const follower=document.getElementById('mouseFollower');
+document.addEventListener('mousemove',e=>{mouseX=e.clientX;mouseY=e.clientY;follower.style.left=mouseX+'px';follower.style.top=mouseY+'px'});
+document.querySelectorAll('a,button,.glass-card,.cert-card').forEach(el=>{el.addEventListener('mouseenter',()=>follower.classList.add('hover'));el.addEventListener('mouseleave',()=>follower.classList.remove('hover'))});
+
+// ========== TYPING EFFECT ==========
+const phrases=['Building AI-powered solutions','Exploring emerging technologies','Creating innovative web experiences','Participating in hackathons','Learning & growing every day'];
+let phraseIdx=0,charIdx=0,isDeleting=false;
+function typeEffect(){const el=document.getElementById('typingText');const current=phrases[phraseIdx];if(isDeleting){el.textContent=current.substring(0,charIdx--);if(charIdx<0){isDeleting=false;phraseIdx=(phraseIdx+1)%phrases.length;setTimeout(typeEffect,400);return}}else{el.textContent=current.substring(0,charIdx++);if(charIdx>current.length){isDeleting=true;setTimeout(typeEffect,2000);return}}setTimeout(typeEffect,isDeleting?30:60)}
+typeEffect();
+
+// ========== HERO ANIMATION ==========
+gsap.to('#heroContent',{opacity:1,y:0,duration:1.2,ease:'power3.out',delay:0.3});
+
+// ========== NAVBAR SCROLL ==========
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{if(window.scrollY>50){navbar.classList.add('glass');navbar.style.borderBottom='1px solid rgba(255,255,255,0.05)'}else{navbar.classList.remove('glass');navbar.style.borderBottom='none'}});
+
+// ========== ACTIVE NAV LINK ==========
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('.nav-link');
+window.addEventListener('scroll',()=>{let current='';sections.forEach(s=>{if(window.scrollY>=s.offsetTop-200)current=s.id});navLinks.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+current)l.classList.add('active')})});
+
+// ========== MOBILE MENU ==========
+const mobileMenu=document.getElementById('mobileMenu');
+document.getElementById('mobileMenuBtn').addEventListener('click',()=>mobileMenu.classList.add('open'));
+document.getElementById('mobileMenuClose').addEventListener('click',()=>mobileMenu.classList.remove('open'));
+document.querySelectorAll('.mobile-nav-link').forEach(l=>l.addEventListener('click',()=>mobileMenu.classList.remove('open')));
+
+// ========== THEME TOGGLE ==========
+const html=document.documentElement;
+document.getElementById('themeToggle').addEventListener('click',()=>{html.classList.toggle('dark');document.body.classList.toggle('light-mode');document.body.classList.toggle('dark:bg-[#08080d]');document.body.classList.toggle('bg-[#f5f7fa]')});
+
+// ========== SCROLL REVEAL ==========
+const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');if(e.target.id==='skillsBars'){e.target.querySelectorAll('.progress-fill').forEach((bar,i)=>{setTimeout(()=>bar.classList.add('animated'),i*150)})}if(e.target.querySelectorAll('.counter').length){e.target.querySelectorAll('.counter').forEach(c=>{const target=+c.dataset.target;let val=0;const inc=target/40;const timer=setInterval(()=>{val+=inc;if(val>=target){val=target;clearInterval(timer)}c.textContent=Math.round(val)},40)})}}})},{threshold:0.15});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.stagger-children').forEach(el=>observer.observe(el));
+
+// ========== THANK YOU SPARKLES ==========
+function createSparkles(){
+    const container=document.getElementById('sparkleContainer');
+    if(!container)return;
+    const colors=['#00f0ff','#a855f7','#ec4899','#3b82f6','#10b981'];
+    for(let i=0;i<20;i++){
+        const s=document.createElement('div');
+        s.className='thankyou-sparkle';
+        const size=Math.random()*4+2;
+        const color=colors[Math.floor(Math.random()*colors.length)];
+        s.style.cssText=`
+            width:${size}px;height:${size}px;
+            background:${color};
+            box-shadow:0 0 ${size*3}px ${color};
+            left:${Math.random()*100}%;
+            bottom:${Math.random()*30}%;
+            animation-duration:${Math.random()*3+3}s;
+            animation-delay:${Math.random()*5}s;
+        `;
+        container.appendChild(s);
+    }
+}
+createSparkles();
+
+// ========== THANK YOU GSAP ENTRANCE ==========
+gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.create({
+    trigger:'#thankYouSection',
+    start:'top 80%',
+    onEnter:()=>{
+        gsap.from('#thankYouSection h2',{opacity:0,scale:0.8,y:30,duration:1,ease:'back.out(1.7)'});
+        gsap.from('#thankYouSection p',{opacity:0,y:20,duration:0.8,delay:0.3,ease:'power3.out'});
+        gsap.from('#thankYouSection .flex.items-center.gap-3',{opacity:0,scale:0,duration:0.6,delay:0.5,ease:'back.out(2)'});
+        gsap.from('#thankYouSection .btn-primary, #thankYouSection .btn-outline',{opacity:0,y:20,duration:0.6,delay:0.7,stagger:0.15,ease:'power3.out'});
+        gsap.from('#thankYouSection .flex.items-center.gap-3.justify-center:last-child',{opacity:0,y:15,duration:0.6,delay:0.9,ease:'power3.out'});
+    },
+    once:true
+});
+
+// ========== CERTIFICATE ZOOM ==========
+function openCert(src){const m=document.getElementById('certModal');document.getElementById('certModalImg').src=src;m.classList.add('active')}
+document.getElementById('certModal').addEventListener('click',function(){this.classList.remove('active')});
+
+// ========== TOAST ==========
+function showToast(msg){const t=document.getElementById('toast');document.getElementById('toastMsg').textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)}
+
+// ========== CONTACT FORM ==========
+document.getElementById('contactForm').addEventListener('submit',function(e){e.preventDefault();showToast('✅ Message sent successfully! I\'ll get back to you soon.');this.reset()});
+</script>
+</body>
+</html>
