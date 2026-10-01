@@ -12,6 +12,11 @@ I am a passionate developer focused on logic building, algorithm optimization, a
 ![GitHub Stats](https://github-readme-stats.vercel.app/api?username=kiran2007-dotcom&show_icons=true&theme=radical)
 ![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=kiran2007-dotcom&layout=compact&theme=radical)## Hi there 👋
 PORTFOLIO: https://mkiran-portfolio.netlify.app/
+Game: https://github.com/kiran2007-dotcom/Game
+AI Camera: https://github.com/kiran2007-dotcom/AI-Piracy-Shield
+x402 Algorand (M2M Talking): https://github.com/kiran2007-dotcom/x402-algo
+CivicAI: https://github.com/kiran2007-dotcom/CivicAI
+
 <!--
 **kiran2007-dotcom/kiran2007-dotcom** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
